@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static "home.css" %}">
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-success my-3" role="alert">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title text-white mb-0"> Filter by Categories</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for category in categories %}
+                        <li class="list-group-item">
+                            <a href="{% url "home" category.0 %}" class="text-decoration-none">{{ category.1 }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-8">
+            <div class="row">
+                {% if is_filter %}
+                <h4 class='text-secondary mt-2'>Total result: {{books | length}}. <small><a href="{% url "home" %}" style='text-decoration: none;'>Clear Filter</a></small> </h4>
+                {% endif %}
+                {% for book in books %}
+                    <div class="col-lg-6 col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <h6 class="card-category text-muted"><strong>Category:</strong> {{ book.get_category_display }}</h6>
+                                <p class="card-text">{{ book.description | truncatechars:100}}</p>
+                                <p class="card-price text-primary">${{ book.borrow_price }}</p>
+                                <a href="{% url 'details' book.id %}" class="btn btn-outline-info">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
