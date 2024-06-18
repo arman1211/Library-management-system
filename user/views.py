@@ -1,12 +1,15 @@
 from django.shortcuts import render,redirect
+from django.core.mail import send_mail
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView,LogoutView
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from . import forms
 from . import models
 from django.contrib import messages
 from user.models import AcountModel
 from book.models import BorrowModel
+import datetime
 
 
 # Create your views here.
@@ -23,7 +26,7 @@ def user_register(request):
     return render(request,'register.html',{'form': form})
 
 class UserLoginView(LoginView):
-    template_name = 'register.html'
+    template_name = 'login.html'
     
     def get_success_url(self):
         return reverse_lazy('home')
@@ -32,6 +35,7 @@ class UserLoginView(LoginView):
         messages.success(self.request, 'Login successful')
         return super().form_valid(form)
     
+
 class UserLogoutView(LogoutView):
     def get_success_url(self):
         return reverse_lazy('home')
@@ -41,6 +45,7 @@ class UserLogoutView(LogoutView):
             messages.success(request, 'Logout successful')
         return super().dispatch(request, *args, **kwargs)
 
+@login_required 
 def deposit_money(request):
     if request.method == 'POST':
         form = forms.DepositForm(request.POST)
@@ -54,16 +59,22 @@ def deposit_money(request):
             user_acount.balance+=amount
             user_acount.save()
             messages.success(request,f'Successfully added amount {amount}, your current balance is {user_acount.balance}')
+            subject = 'DEPOSIT'
+            message = f'Successfully added amount {amount} at {datetime.datetime.now()}, your current balance is {user_acount.balance} '
+            from_email = settings.EMAIL_HOST_USER
+            to = request.user.email
+            send_mail(subject,message,from_email,[to])
             return redirect('home')
     else:
         form = forms.DepositForm()
     return render(request,'deposit.html',{'form':form})
 
-
+@login_required 
 def profile(request):
     books = BorrowModel.objects.filter(user=request.user)
     print(books)
     return render(request,'profile.html',{'books': books})
+
 
 def account_balance(request):
     if request.user.is_authenticated:

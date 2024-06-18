@@ -2,11 +2,11 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.views.generic import FormView
 from .forms import BookForm
-from user.models import AcountModel
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
-class AddBookView(FormView):
+class AddBookView(LoginRequiredMixin,FormView):
     form_class = BookForm
     template_name = 'addbook.html'
 

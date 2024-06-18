@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static "home.css" %}">
 {% if messages %}
     {% for msg in messages %}
-        <div class="alert alert-success my-3" role="alert">{{ msg }}</div>
+        <div class="alert alert-{{msg.tags}} my-3 w-50 m-auto" role="alert">{{ msg }}</div>
     {% endfor %}
 {% endif %}
 

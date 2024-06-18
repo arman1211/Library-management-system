@@ -33,7 +33,7 @@ body{
     top:0;
     width:4px;
     height:100%;
-    background-color:#8E24AA;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     transform:scaleY(0);
     transition:all 0.5s;
     transform-origin: bottom
@@ -63,21 +63,21 @@ body{
 
 
 .buttons button:nth-child(1){
-       border:1px solid #8E24AA !important;
-       color:#8E24AA;
+       border:1px solid #390b7a !important;
+       color:#5724aa;
        height:40px;
 }
 
 .buttons button:nth-child(1):hover{
-       border:1px solid #8E24AA !important;
+       border:1px solid #460385 !important;
        color:#fff;
        height:40px;
-       background-color:#8E24AA;
+       background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
 }
 
 .buttons button:nth-child(2){
        border:1px solid #8E24AA !important;
-       background-color:#8E24AA;
+       background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
        color:#fff;
         height:40px;
 }

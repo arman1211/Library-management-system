@@ -1,4 +1,4 @@
-.navbar {
+.navbar{
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -29,6 +29,10 @@
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;
     color: #fff;
+}
+.foot{
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 @media (max-width: 992px) {
     .navbar-brand {

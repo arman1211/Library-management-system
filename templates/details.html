@@ -6,9 +6,9 @@
 {% block content %}
 <link rel="stylesheet" href="{% static "details.css" %}">
 {% if messages %}
-{% for msg in messages %}
-<h2>{{msg}}</h2>
-{% endfor %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.tags}} my-3 w-50 m-auto" role="alert">{{ msg }}</div>
+    {% endfor %}
 {% endif %}
 
 <div class="container mt-5">

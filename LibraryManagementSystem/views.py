@@ -1,5 +1,7 @@
-from typing import Any
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
+from django.conf import settings
 from book.models import BookModel,ReviewModel,BorrowModel
 from user.models import AcountModel
 from book.forms import ReviewForm
@@ -22,7 +24,7 @@ def home(request,category=None):
     return render(request,'home.html',{'books': books,'categories': constrant.Book_Category,'is_filter': is_filter})
 
 
-
+@login_required 
 def buy_book(request,id):
     book = BookModel.objects.get(pk=id)
     try:
@@ -35,11 +37,17 @@ def buy_book(request,id):
         acount.balance-=book.borrow_price
         acount.save()
         messages.success(request,f'succesfully borrowed {book.title}. Your current balance is {acount.balance}')
+        subject = 'Book Borrowed Successfully'
+        message = f'succesfully borrowed {book.title}. Your current balance is {acount.balance}. Your borrowing date is {datetime.datetime.now()}'
+        from_email = settings.EMAIL_HOST_USER
+        to = request.user.email
+        send_mail(subject,message,from_email,[to])
         return redirect('profile')
     else:
         messages.warning(request,f'insufficient amount. please deposit first')
         return redirect('home')
     
+@login_required    
 def return_book(request,id):
     book = BookModel.objects.get(pk=id)
     acount = AcountModel.objects.get(user = request.user)
@@ -50,6 +58,11 @@ def return_book(request,id):
     acount.save()
     borrow.save()
     messages.success(request,f'Book returned succesfully.${book.borrow_price} has added to you acount')
+    subject = 'Book Returned Successfully'
+    message = f'succesfully returned {book.title}.${book.borrow_price} has added to you acount. Your current balance is {acount.balance}. Your returning date is {datetime.datetime.now()}'
+    from_email = settings.EMAIL_HOST_USER
+    to = request.user.email
+    send_mail(subject,message,from_email,[to])
     return redirect('profile')
 
 
@@ -66,8 +79,11 @@ class DetailBookView(FormMixin,DetailView):
         if self.request.user.is_authenticated:
             form = self.get_form()
             context['form'] = form
+            try:
+                context['is_borrowed']=BorrowModel.objects.filter(book = self.object,user=self.request.user)
+            except:
+                context['is_borrowed'] = False
         context['reviews'] = ReviewModel.objects.filter(book=self.object)
-        context['is_borrowed'] = BorrowModel.objects.filter(book=self.object,user=self.request.user)
         return context
     def post(self,request,*args,**kwargs):
         self.object = self.get_object()
@@ -78,6 +94,6 @@ class DetailBookView(FormMixin,DetailView):
             review.user = request.user
             review.save()
             messages.success(request,'review successfull')
-            return redirect('home')
+            return redirect('details',pk=self.object.pk)
             
     

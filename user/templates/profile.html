@@ -7,7 +7,7 @@
 
 {% if messages %}
     {% for msg in messages %}
-        <div class="alert alert-success" role="alert">{{ msg }}</div>
+        <div class="alert alert-{{msg.tags}} my-3 w-50 m-auto" role="alert">{{ msg }}</div>
     {% endfor %}
 {% endif %}
 
@@ -49,9 +49,9 @@
     </div>
 </div>
 
-<section class="intro mt-3">
+<section class="intro mt-3 ">
     <h4 class='text-center text-primary'>Borrowed Books</h4>
-    <div class="bg-image h-100 shadow" style="background-color: #6095F0;">
+    <div class="bg-image h-100 shadow mb-5 mt-2" style="background-color: #6095F0;">
       <div class="mask d-flex align-items-center h-100">
         <div class="container">
           <div class="row justify-content-center">
