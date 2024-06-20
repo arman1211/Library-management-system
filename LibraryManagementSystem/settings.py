@@ -50,7 +50,7 @@ EMAIL_HOST_PASSWORD = env('APP_PASSWORD')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','library-management-system-id4u.onrender.com']
 
 
 # Application definition
