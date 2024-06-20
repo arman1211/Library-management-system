@@ -49,8 +49,11 @@ EMAIL_HOST_PASSWORD = env('APP_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://library-management-system-id4u.onrender.com',
+]
 
-ALLOWED_HOSTS = ['127.0.0.1','library-management-system-id4u.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1','library-management-system-id4u.onrender.com','https://library-management-system-id4u.onrender.com']
 
 
 # Application definition
