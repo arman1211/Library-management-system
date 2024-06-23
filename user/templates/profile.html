@@ -26,7 +26,7 @@
                 <div class="text-center mt-3">
                     <span class="bg-secondary p-1 px-4 rounded text-white">{{request.user.username}}</span>
                     <h5 class="mt-2 mb-0">{{request.user.first_name}} {{request.user.last_name}}</h5>
-                    <span>Student</span>
+                    <span>{{request.user.email}}</span>
                     
                     <div class="px-4 mt-1">
                         <h3 class='text-secondary'>Total Books Borrowed: {{books | length}}</h3>
@@ -51,7 +51,7 @@
 
 <section class="intro mt-3 ">
     <h4 class='text-center text-primary'>Borrowed Books</h4>
-    <div class="bg-image h-100 shadow mb-5 mt-2" style="background-color: #6095F0;">
+    <div class="bg-image h-100 shadow mb-5 mt-2" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
       <div class="mask d-flex align-items-center h-100">
         <div class="container">
           <div class="row justify-content-center">
@@ -62,6 +62,7 @@
                     <table class="table table-border mb-0">
                       <thead>
                         <tr>
+                          <th scope="col">Book ID</th>
                           <th scope="col">Book Title</th>
                           <th scope="col">Borrowed Date</th>
                           <th scope="col">Returned date</th>
@@ -74,6 +75,7 @@
                         {% for book in books %}
                         <tr>
                           
+                            <td>{{book.book.id}}</td>
                             <td>{{book.book.title}}</td>
                             <td>{{book.borrowed_date}}</td>
                             {% if book.return_date %}

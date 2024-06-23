@@ -29,11 +29,11 @@ def buy_book(request,id):
     book = BookModel.objects.get(pk=id)
     try:
         acount = AcountModel.objects.get(user=request.user)
-        BorrowModel.objects.create(user = request.user,book=book)
+        
     except:
         acount = AcountModel.objects.create(user = request.user)
-        BorrowModel.objects.create(user = request.user,book=book)
     if acount.balance >= book.borrow_price:
+        BorrowModel.objects.create(user = request.user,book=book)
         acount.balance-=book.borrow_price
         acount.save()
         messages.success(request,f'succesfully borrowed {book.title}. Your current balance is {acount.balance}')

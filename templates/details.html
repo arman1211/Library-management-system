@@ -25,35 +25,38 @@
                 <p class="lead mt-4">{{ book.description }}</p>
                 <p class="h4 text-success mt-4">${{ book.borrow_price }}</p>
                 {% if request.user.is_authenticated %}
-                <a href="{% url 'buy' book.id %}" class="btn btn-primary mt-4">Borrow</a>
+                <a href="{% url 'buy' book.id %}" class="btn mt-4" style='background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);color:white'>Borrow</a>
                 {% endif %}
             </div>
         </div>
     </div>
-    <div class="reviews">
-        <h4>Reviews:</h4>
-        {% for review in reviews %}
-        <div class="review">
-            <h5>{{ review.user.username }}</h5>
-            <p>Rating: {{ review.rating }}</p>
-            <p>{{ review.review }}</p>
+    <hr>
+    <div class="review-section d-flex row my-5 gap-5">
+        <div class="reviews col-md-5">
+            <h4>Reviews:</h4>
+            {% for review in reviews %}
+            <div class="review">
+                <h5>{{ review.user.username }}</h5>
+                <p>Rating: {{ review.rating }}</p>
+                <p>{{ review.review }}</p>
+            </div>
+            {% empty %}
+            <p class="no-reviews">No reviews yet. Be the first to review this book!</p>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p class="no-reviews">No reviews yet. Be the first to review this book!</p>
-        {% endfor %}
+        {% if request.user.is_authenticated and is_borrowed %}
+        <form  method='post'  class='shadow rounded my-2 col-md-6 p-3'>
+            {% csrf_token %}
+            <!-- {{form | crispy}}-->
+            {% for fm in form %}
+            {{fm.label_tag}}
+            {{fm}}
+            {{fm.errors | striptags}}
+            <br>
+            {% endfor %}
+            <button type="submit" class='btn' style='background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);color:white'>Add</button>
+        </form>
     </div>
-    {% if request.user.is_authenticated and is_borrowed %}
-    <form  method='post'  class='w-50 m-auto shadow p-3 rounded'>
-        {% csrf_token %}
-        <!-- {{form | crispy}}-->
-        {% for fm in form %}
-        {{fm.label_tag}}
-        {{fm}}
-        {{fm.errors | striptags}}
-        <br>
-        {% endfor %}
-        <button type="submit" class='btn btn-primary'>Add</button>
-    </form>
 </div>
 
 {% endif %}
