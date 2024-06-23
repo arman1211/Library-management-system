@@ -126,6 +126,7 @@ DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
         default='postgres://library_0sy6_user:VpKZrLYd9XfR1zO2RgEwlerKDOtkA0tv@dpg-cppffh5ds78s73e7rl0g-a.oregon-postgres.render.com/library_0sy6',
+        conn_max_age=None
     )
 }
 
